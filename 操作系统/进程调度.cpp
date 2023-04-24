@@ -11,17 +11,17 @@ pthread_mutex_t Device_mutex ;
 //Virtual PCB of threads 
 struct VirtualPCB
 {
-	int tid;			//½ø³ÌÃû;
-	int arrivetime;		//µ½´ïÊ±¼ä
-	int runtime;		//·şÎñÊ±¼ä
-	int priority;		//ÓÅÏÈ¼¶ 
-	int endtime;		//½áÊøÊ±¼ä 
-	int starttime;		//¿ªÊ¼Ê±¼ä
-	float turntime;		//ÖÜ×ªÊ±¼ä 
-	float weight_turntime; //´øÈ¨ÖÜ×ªÊ±¼ä 
-	int state;			//ÉèÖÃ½ø³Ì×´Ì¬ 
-	float response;		//ÏìÓ¦±È 
-	int waittime;		//µÈ´ıÊ±¼ä 
+	int tid;			//è¿›ç¨‹å;
+	int arrivetime;		//åˆ°è¾¾æ—¶é—´
+	int runtime;		//æœåŠ¡æ—¶é—´
+	int priority;		//ä¼˜å…ˆçº§ 
+	int endtime;		//ç»“æŸæ—¶é—´ 
+	int starttime;		//å¼€å§‹æ—¶é—´
+	float turntime;		//å‘¨è½¬æ—¶é—´ 
+	float weight_turntime; //å¸¦æƒå‘¨è½¬æ—¶é—´ 
+	int state;			//è®¾ç½®è¿›ç¨‹çŠ¶æ€ 
+	float response;		//å“åº”æ¯” 
+	int waittime;		//ç­‰å¾…æ—¶é—´ 
 	 
 }TCB[30]; 
 
@@ -30,12 +30,12 @@ struct VirtualPCB
 void t_init()
 {
     int n;
-    //srand(time(NULL));		//ÓÃÓÚÉú³ÉËæ»úÊı£¬½«µ±Ç°Ê±¼ä×÷ÎªÖÖ×Ó´«µİ¸øsrandº¯Êı£¬ÒÔ±ãÃ¿´ÎÔËĞĞ¶¼ÄÜÉú³É²»Í¬µÄËæ»úÊıĞòÁĞ 
+    //srand(time(NULL));		//ç”¨äºç”Ÿæˆéšæœºæ•°ï¼Œå°†å½“å‰æ—¶é—´ä½œä¸ºç§å­ä¼ é€’ç»™srandå‡½æ•°ï¼Œä»¥ä¾¿æ¯æ¬¡è¿è¡Œéƒ½èƒ½ç”Ÿæˆä¸åŒçš„éšæœºæ•°åºåˆ— 
     for(n =0;n<Thread_Num;n++)
     {
-    	TCB[n].tid = n + 1;//ÓÃÏß³Ì´´½¨ĞòºÅ×÷ÎªĞéÄâ½ø³Ìid 
+    	TCB[n].tid = n + 1;//ç”¨çº¿ç¨‹åˆ›å»ºåºå·ä½œä¸ºè™šæ‹Ÿè¿›ç¨‹id 
   
-		printf("ÇëÊäÈë½ø³Ì%dµÄµ½´ïÊ±¼ä£¬·şÎñÊ±¼ä£¬ÓÅÏÈ¼¶£º\n",TCB[n].tid);//´Ó¼üÅÌÊäÈë¸÷½ø³ÌµÄµ½´ïÊ±¼ä£¬·şÎñÊ±¼ä£¬ÓÅÏÈ¼¶ 
+		printf("è¯·è¾“å…¥è¿›ç¨‹%dçš„åˆ°è¾¾æ—¶é—´ï¼ŒæœåŠ¡æ—¶é—´ï¼Œä¼˜å…ˆçº§ï¼š\n",TCB[n].tid);//ä»é”®ç›˜è¾“å…¥å„è¿›ç¨‹çš„åˆ°è¾¾æ—¶é—´ï¼ŒæœåŠ¡æ—¶é—´ï¼Œä¼˜å…ˆçº§ 
    
     	scanf("%d%d%d",&TCB[n].arrivetime,&TCB[n].runtime,&TCB[n].priority);
     }
@@ -56,15 +56,15 @@ void *t_print(void *arg)
     }
     pthread_exit(0);
 }
-void print_all()//Êä³ö 
+void print_all()//è¾“å‡º 
 {
 	int i,j;
 	float sum_turn=0;
 	float sum_weight=0;
 	float avg_turn;
 	float avg_weight;
-	printf("%-10s%-10s%-10s%-10s%-10s%-10s\t\n","½ø³ÌÃû","µ½´ïÊ±¼ä","·şÎñÊ±¼ä","Íê³ÉÊ±¼ä","ÖÜ×ªÊ±¼ä","´øÈ¨ÖÜ×ªÊ±¼ä"); 
-	//°´½ø³ÌÊäÈëË³ĞòÅÅĞò
+	printf("%-10s%-10s%-10s%-10s%-10s%-10s\t\n","è¿›ç¨‹å","åˆ°è¾¾æ—¶é—´","æœåŠ¡æ—¶é—´","å®Œæˆæ—¶é—´","å‘¨è½¬æ—¶é—´","å¸¦æƒå‘¨è½¬æ—¶é—´"); 
+	//æŒ‰è¿›ç¨‹è¾“å…¥é¡ºåºæ’åº
 	for(i=0;i<Thread_Num-1;i++){
 		for(j=i+1;j<Thread_Num;j++){
 			if(TCB[i].tid>TCB[j].tid){
@@ -83,8 +83,8 @@ void print_all()//Êä³ö
 	}
 	avg_turn = sum_turn / Thread_Num;
 	avg_weight = sum_weight / Thread_Num;
-	printf("Æ½¾ùÖÜ×ªÊ±¼äÎª%.2f\n",avg_turn);
-	printf("Æ½¾ù´øÈ¨ÖÜ×ªÊ±¼äÎª%.2f\n",avg_weight);
+	printf("å¹³å‡å‘¨è½¬æ—¶é—´ä¸º%.2f\n",avg_turn);
+	printf("å¹³å‡å¸¦æƒå‘¨è½¬æ—¶é—´ä¸º%.2f\n",avg_weight);
 	
 }
 //First come first service schedule function
@@ -93,7 +93,7 @@ void FCFS()
     int i,j;
     int time = 0;
 	printf("----------------------FCFS----------------------\n");
-    // °´ÕÕµ½´ïÊ±¼äÅÅĞò
+    // æŒ‰ç…§åˆ°è¾¾æ—¶é—´æ’åº
     for (i = 0; i < Thread_Num -1; i++) {
         for (j = i + 1; j < Thread_Num; j++) {
             if (TCB[i].arrivetime > TCB[j].arrivetime) {
@@ -103,8 +103,8 @@ void FCFS()
             }
         }
     }
-    printf("µ÷¶ÈË³ĞòÎª£º");
-    // Ö´ĞĞÈÎÎñ
+    printf("è°ƒåº¦é¡ºåºä¸ºï¼š");
+    // æ‰§è¡Œä»»åŠ¡
     for(i=0;i<Thread_Num;i++)
     {
         if(time < TCB[i].arrivetime){
@@ -125,10 +125,10 @@ void SJF()
 {
 	int i,j;
 	int time = 0;
-	int t=0;//ÅĞ¶ÏÓĞ¼¸¸ö½ø³Ì±»Ö´ĞĞ 
+	int t=0;//åˆ¤æ–­æœ‰å‡ ä¸ªè¿›ç¨‹è¢«æ‰§è¡Œ 
     printf("----------------------SJF----------------------\n");
-    printf("µ÷¶ÈË³ĞòÎª£º");
-	//Ñ¡È¡×îĞ¡·şÎñÊ±¼äµÄÏÂ±ê 
+    printf("è°ƒåº¦é¡ºåºä¸ºï¼š");
+	//é€‰å–æœ€å°æœåŠ¡æ—¶é—´çš„ä¸‹æ ‡ 
     while(t<Thread_Num){
     	int index=Thread_Num+1;
     	int min_time = 999;
@@ -152,24 +152,24 @@ void SJF()
 		}
 	}
 	printf("end\n");
-	//ÏÈÅĞ¶ÏÔÚtimeÊ±¿ÌÓĞË­µ½´ï£¬È»ºó¸ù¾İ·şÎñÊ±¼äÀ´¾ö¶¨Ë³Ğò£¬¶¼Ã»ÓĞ£¬time++ÔÙÅĞ¶Ï 
+	//å…ˆåˆ¤æ–­åœ¨timeæ—¶åˆ»æœ‰è°åˆ°è¾¾ï¼Œç„¶åæ ¹æ®æœåŠ¡æ—¶é—´æ¥å†³å®šé¡ºåºï¼Œéƒ½æ²¡æœ‰ï¼Œtime++å†åˆ¤æ–­ 
 	print_all();
 	for(i=0;i<Thread_Num;i++){
 		TCB[i].state=0;
-	} //Ëã·¨½áÊøºó½«ÆäÖ´ĞĞ×´Ì¬ÖÃÎª0 
+	} //ç®—æ³•ç»“æŸåå°†å…¶æ‰§è¡ŒçŠ¶æ€ç½®ä¸º0 
 }
 //Priority schedule function
 void Priority()
 {
    int i,j;
 	int time = 0;
-	int t=0;//ÅĞ¶ÏÓĞ¼¸¸ö½ø³Ì±»Ö´ĞĞ 
+	int t=0;//åˆ¤æ–­æœ‰å‡ ä¸ªè¿›ç¨‹è¢«æ‰§è¡Œ 
     printf("----------------------Priority----------------------\n");
-	printf("µ÷¶ÈË³ĞòÎª£º");
+	printf("è°ƒåº¦é¡ºåºä¸ºï¼š");
 
 	while(t<Thread_Num){
     	int index=Thread_Num+1;
-    	int min_priority = 999;//Êı×ÖÔ½Ğ¡ÓÅÏÈ¼¶Ô½¸ß 
+    	int min_priority = 999;//æ•°å­—è¶Šå°ä¼˜å…ˆçº§è¶Šé«˜ 
     	for(i=0;i<Thread_Num;i++){
     		if(TCB[i].state==0 &&TCB[i].arrivetime<=time && TCB[i].priority<min_priority){
     			min_priority = TCB[i].priority;
@@ -193,26 +193,26 @@ void Priority()
 	print_all();
 	for(i=0;i<Thread_Num;i++){
 		TCB[i].state=0;
-	} //Ëã·¨½áÊøºó½«ÆäÖ´ĞĞ×´Ì¬ÖÃÎª0 
+	} //ç®—æ³•ç»“æŸåå°†å…¶æ‰§è¡ŒçŠ¶æ€ç½®ä¸º0 
 }
 
 void HRRN()
 {
-   //Ê×ÏÈ¼ÆËãÏìÓ¦±È£¬ÕÒµ½×î´óÏìÓ¦±È½ø³Ì 
-   //¶ÔÓÚ»¹Î´µ½´ïµÄ½ø³Ì£¬½«ÏìÓ¦±ÈÖÃÎª0
+   //é¦–å…ˆè®¡ç®—å“åº”æ¯”ï¼Œæ‰¾åˆ°æœ€å¤§å“åº”æ¯”è¿›ç¨‹ 
+   //å¯¹äºè¿˜æœªåˆ°è¾¾çš„è¿›ç¨‹ï¼Œå°†å“åº”æ¯”ç½®ä¸º0
    printf("----------------------HRRN----------------------\n");
    int i,j;
    int time=0;
-   int block_q=0;	//ÒÑ¾­±»Ö´ĞĞÍêµÄ½ø³Ì¶ÓÁĞ 
-	printf("µ÷¶ÈË³ĞòÎª£º");
+   int block_q=0;	//å·²ç»è¢«æ‰§è¡Œå®Œçš„è¿›ç¨‹é˜Ÿåˆ— 
+	printf("è°ƒåº¦é¡ºåºä¸ºï¼š");
    while(block_q<Thread_Num){
    		int t_time=time; 
-   		//¼ÆËãÏìÓ¦±È 
+   		//è®¡ç®—å“åº”æ¯” 
 	   for(i=0;i<Thread_Num;i++){
 	   		if(TCB[i].state==0){
 				if(TCB[i].arrivetime<=time){
 					TCB[i].waittime = time - TCB[i].arrivetime;
-					TCB[i].response = (TCB[i].waittime + TCB[i].runtime) / (float)(TCB[i].runtime);//ÀàĞÍ×ª»» 
+					TCB[i].response = (TCB[i].waittime + TCB[i].runtime) / (float)(TCB[i].runtime);//ç±»å‹è½¬æ¢ 
 				}else{
 					TCB[i].response = 0;
 				}
@@ -220,7 +220,7 @@ void HRRN()
 				TCB[i].response = -1;
 			}
 	   } 
-	   //ÕÒµ½×î¸ßÏìÓ¦±ÈµÄ½ø³Ì 
+	   //æ‰¾åˆ°æœ€é«˜å“åº”æ¯”çš„è¿›ç¨‹ 
 		int max=0;
 		for(i=0;i<Thread_Num;i++){
 			if(TCB[i].response>TCB[max].response){
@@ -245,20 +245,20 @@ void HRRN()
 	print_all();
 	for(i=0;i<Thread_Num;i++){
 		TCB[i].state=0;
-	} //Ëã·¨½áÊøºó½«ÆäÖ´ĞĞ×´Ì¬ÖÃÎª0 	 
+	} //ç®—æ³•ç»“æŸåå°†å…¶æ‰§è¡ŒçŠ¶æ€ç½®ä¸º0 	 
 }
 
 //Main thread execute function to create children threads
 void *Children(void *arg)
 {
-    int ret[Thread_Num]; // ±£´æÏß³Ì´´½¨µÄ·µ»ØÖµ
-    pthread_t tid[Thread_Num]; // Ïß³ÌIDÊı×é
-    pthread_mutex_init(&Device_mutex, NULL); // ³õÊ¼»¯»¥³âËø
+    int ret[Thread_Num]; // ä¿å­˜çº¿ç¨‹åˆ›å»ºçš„è¿”å›å€¼
+    pthread_t tid[Thread_Num]; // çº¿ç¨‹IDæ•°ç»„
+    pthread_mutex_init(&Device_mutex, NULL); // åˆå§‹åŒ–äº’æ–¥é”
     int i, j;
 
     for (i = 0; i < Thread_Num; i++)
     {
-        // ÎªÃ¿¸öÏß³Ì·ÖÅäĞÂµÄ±äÁ¿£¬±ÜÃâ²»Í¬Ïß³ÌÖ®¼äÏà»¥Ó°Ïì
+        // ä¸ºæ¯ä¸ªçº¿ç¨‹åˆ†é…æ–°çš„å˜é‡ï¼Œé¿å…ä¸åŒçº¿ç¨‹ä¹‹é—´ç›¸äº’å½±å“
         int* thread_num_ptr = (int*)malloc(sizeof(int));
         if (thread_num_ptr == NULL) {
             printf("Failed to allocate memory for thread %d", i + 1);
@@ -266,25 +266,25 @@ void *Children(void *arg)
         }
         *thread_num_ptr = i + 1;
 
-        // ´´½¨Ïß³Ì
+        // åˆ›å»ºçº¿ç¨‹
         ret[i] = pthread_create(&tid[i], NULL, &t_print, thread_num_ptr);
         if (ret[i] != 0) {
             printf("Failed to create thread %d\n", i + 1);
             exit(1);
         }
 
-        // µÈ´ıÒ»¶ÎÊ±¼ä£¬±ÜÃâÏß³ÌÍ¬Ê±Æô¶¯µ¼ÖÂÊä³ö»ìÂÒ
+        // ç­‰å¾…ä¸€æ®µæ—¶é—´ï¼Œé¿å…çº¿ç¨‹åŒæ—¶å¯åŠ¨å¯¼è‡´è¾“å‡ºæ··ä¹±
         sleep(1);
     }
 
-    // µÈ´ıËùÓĞÏß³ÌÖ´ĞĞÍê±Ï
+    // ç­‰å¾…æ‰€æœ‰çº¿ç¨‹æ‰§è¡Œå®Œæ¯•
     for (j = 0; j < Thread_Num; j++) {
         if (pthread_join(tid[j], NULL) != 0) {
             printf("Failed to join thread %d\n", j + 1);
         }
     }
 
-    // Ïú»Ù»¥³âËø
+    // é”€æ¯äº’æ–¥é”
     pthread_mutex_destroy(&Device_mutex);
 
     pthread_exit(0);
@@ -293,9 +293,9 @@ int main()
 {
     int ret1;
 	int d;
-	printf("ÇëÊäÈë½ø³ÌÊıÄ¿£º");
+	printf("è¯·è¾“å…¥è¿›ç¨‹æ•°ç›®ï¼š");
 	scanf("%d",&Thread_Num);
-	printf("---------------½ø³Ì³õÊ¼»¯---------------\n");
+	printf("---------------è¿›ç¨‹åˆå§‹åŒ–---------------\n");
     t_init();
     pthread_t tid1;
     ret1 = pthread_create(&tid1,NULL,&Children,NULL);//Create main thread
@@ -323,7 +323,7 @@ int main()
 			HRRN();
 			break;
     	default:
-    		printf("ÊäÈëÓĞÎó!\n");
+    		printf("è¾“å…¥æœ‰è¯¯!\n");
     		break;
 	}
 	return 0;
